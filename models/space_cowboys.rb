@@ -43,9 +43,10 @@ class SpaceCowboys
 
   def SpaceCowboys.find_by_name(name)
     db = PG.connect({dbname: "space_cowboys", host: "localhost"})
-    sql = "SELECT * FROM space_cowboys WHERE name = '#{name}'"
+    sql = "SELECT * FROM space_cowboys WHERE name = $1"
+    values = [name]
     db.prepare("find_by_name", sql)
-    cowboy = db.exec_prepared("find_by_name")
+    cowboy = db.exec_prepared("find_by_name", values)
     db.close()
     # return cowboy
     if cowboy.count != 0
@@ -57,9 +58,10 @@ class SpaceCowboys
 
   def SpaceCowboys.find_by_id(id)
     db = PG.connect({dbname: "space_cowboys", host: "localhost"})
-    sql = "SELECT * FROM space_cowboys WHERE id = '#{id}'"
+    sql = "SELECT * FROM space_cowboys WHERE id = $1"
+    values = [id]
     db.prepare("find_by_id", sql)
-    cowboy = db.exec_prepared("find_by_id")
+    cowboy = db.exec_prepared("find_by_id", values)
     db.close()
     # return cowboy
     if cowboy.count != 0
